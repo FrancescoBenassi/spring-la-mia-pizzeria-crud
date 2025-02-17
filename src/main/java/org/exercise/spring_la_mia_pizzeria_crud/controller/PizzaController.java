@@ -26,12 +26,12 @@ public class PizzaController {
         return "pizza/index";
     }
 
-    // @GetMapping("/search")
-    // public String findByKeyword(@RequestParam(name = "query") String query, Model model) {
-    //     List<Pizza> pizzas = repository.findByTitleContaining(query);
-    //     model.addAttribute("pizzas", pizzas);
-    //     return "pizza/index";
-    // }
+    @GetMapping("/search")
+    public String findByKeyword(@RequestParam(name = "query") String query, Model model) {
+        List<Pizza> pizzas = repository.findByNameContainingIgnoreCase(query);
+        model.addAttribute("pizzas", pizzas);
+        return "pizza/index";
+    }
 
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
