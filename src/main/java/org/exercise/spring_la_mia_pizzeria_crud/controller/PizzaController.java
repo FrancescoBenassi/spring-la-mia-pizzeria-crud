@@ -26,7 +26,7 @@ public class PizzaController {
         return "pizza/index";
     }
 
-    // @GetMapping("/search/{name}")
+    // @GetMapping("/search")
     // public String findByKeyword(@RequestParam(name = "query") String query, Model model) {
     //     List<Pizza> pizzas = repository.findByTitleContaining(query);
     //     model.addAttribute("pizzas", pizzas);
