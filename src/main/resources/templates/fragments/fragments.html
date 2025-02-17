@@ -48,7 +48,7 @@
     <div th:fragment="list" class="album py-5 bg-body-tertiary">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div class="col" th:each="pizza : ${pizzas}" th:object="${pizza}" th:if="${pizzas.size() > 0}">
+                <div class="col mx-auto" th:each="pizza : ${pizzas}" th:object="${pizza}" th:if="${pizzas.size() > 0}">
                     <div class="card shadow-sm" style="height: 450px;">
                         <img th:src="*{image}" width="100%" height="225px"
                             class="bd-placeholder-img card-img-top object-fit-cover border border-0"
