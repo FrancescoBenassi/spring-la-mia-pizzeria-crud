@@ -27,8 +27,8 @@ public class PizzaController {
     }
 
     @GetMapping("/search")
-    public String findByKeyword(@RequestParam(name = "query") String query, Model model) {
-        List<Pizza> pizzas = repository.findByNameContainingIgnoreCase(query);
+    public String findByKeyword(@RequestParam(name = "name") String name, Model model) {
+        List<Pizza> pizzas = repository.findByNameContainingIgnoreCase(name);
         model.addAttribute("pizzas", pizzas);
         return "pizza/index";
     }
