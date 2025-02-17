@@ -11,29 +11,8 @@
 <body>
     <header th:insert="fragments/fragments :: header">
     </header>
-    <div class="container">
-        <div class="row">
-            <div class="col-12" th:object="${pizza}">
-                <div class="card text-center mx-auto my-3" style="width: 18rem;">
-                    <div class="card-header">
-                        <h2 class="card-title" th:text="*{name}" />
-                    </div>
-                    <div class="card-body">
-                        <img th:src="*{image}" width="100%" height="225px"
-                            class="bd-placeholder-img card-img-top object-fit-cover border border-0"
-                            alt="immagine della pizza">
-                        <p class="card-text py-4" th:text="'Ingredienti: ' + *{description}" />
-                        <div class="card-footer">
-                            <div class="btn-group d-flex">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <main th:insert="fragments/fragments :: showId">
+    </main>
 
     <!-- Js  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
