@@ -28,7 +28,7 @@ public class Pizza {
     @Lob
     private String image;
 
-    @NotNull
+    @NotNull (message = "Price must not be null")
     @Min(value = 0, message = "Price cannot be a negative number")
     private Integer price;
 
