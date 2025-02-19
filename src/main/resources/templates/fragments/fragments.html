@@ -75,20 +75,23 @@
     <div th:fragment="list" class="container">
         <div class="mt-4 d-flex justify-content-between align-items-center">
             <h1 class="fw-light fs-3 text">Lista Pizze</h1>
-            <a class="btn btn-primary" href="newbook.html">Aggiungi Pizza</a>
+            <a class="btn btn-primary" th:href="@{/pizza/create}">Add Pizza</a>
         </div>
-        <table class="table mt-5">
+        <div class="redirect-message alert alert-success" th:if="${message != null}">
+            <p class="m-0" th:text="${message}" />
+        </div>
+        <table class="table mt-5" th:if="${pizzas.size() > 0}">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
                     <th scope="col">Ingredients </th>
                     <th scope="col">Price</th>
-                    <th scope="col">Azioni</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="pizza : ${pizzas}" th:object="${pizza}" th:if="${pizzas.size() > 0}">
+                <tr th:each="pizza : ${pizzas}" th:object="${pizza}">
                     <td scope="row" th:text="*{id}" />
                     <td th:text="*{name}" />
                     <td th:text="*{description}" />
@@ -125,6 +128,56 @@
             </div>
         </div>
     </div>
+
+    <main th:fragment="createPizza" class="container">
+        <section class="row justify-content-center">
+            <div class="col-12">
+                <form th:action="@{/pizza/create}" th:object="${pizza}" id="pizza-create-form" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name: </label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" th:errorClass="is-invalid">
+                        <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('name')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Ingredients: </label>
+                        <input type="text" class="form-control" id="description" th:field="*{description}"
+                            th:errorClass="is-invalid">
+                            <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="error : ${#fields.errors('description')}" th:text="${error}" />
+                                </ul>
+                            </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price: </label>
+                        <input type="number" class="form-control" id="price" th:field="*{price}"
+                            th:errorClass="is-invalid">
+                            <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="error : ${#fields.errors('price')}" th:text="${error}" />
+                                </ul>
+                            </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image: </label>
+                        <input type="text" class="form-control" id="image" th:field="*{image}"
+                            th:errorClass="is-invalid">
+                            <div th:if="${#fields.hasErrors('image')}" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="error : ${#fields.errors('image')}" th:text="${error}" />
+                                </ul>
+                            </div>
+                    </div>
+                    <input type="submit" value="Add new pizza" class="btn btn-primary">
+                </form>
+            </div>
+
+        </section>
+    </main>
 
     <!-- Js  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
