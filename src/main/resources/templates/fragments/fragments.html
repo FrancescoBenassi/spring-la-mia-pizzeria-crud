@@ -45,7 +45,7 @@
         </nav>
     </header>
 
-    <div th:fragment="list" class="album py-5 bg-body-tertiary">
+    <!-- <div th:fragment="list" class="album py-5 bg-body-tertiary">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col mx-auto" th:each="pizza : ${pizzas}" th:object="${pizza}" th:if="${pizzas.size() > 0}">
@@ -69,6 +69,37 @@
                 </div>
             </div>
         </div>
+    </div> -->
+
+
+    <div th:fragment="list" class="container">
+        <div class="mt-4 d-flex justify-content-between align-items-center">
+            <h1 class="fw-light fs-3 text">Lista Pizze</h1>
+            <a class="btn btn-primary" href="newbook.html">Aggiungi Pizza</a>
+        </div>
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Ingredients </th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pizza : ${pizzas}" th:object="${pizza}" th:if="${pizzas.size() > 0}">
+                    <td scope="row" th:text="*{id}" />
+                    <td th:text="*{name}" />
+                    <td th:text="*{description}" />
+                    <td th:text="*{price} + '€'" />
+                    <td>
+                        <a role="button" class="btn btn-sm btn-outline-secondary"
+                            th:href="@{/pizza/{id}(id=${pizza.id})}">View</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div th:fragment="showId" class="container">
