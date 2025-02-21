@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/pizza")
@@ -50,8 +50,9 @@ public class PizzaController {
 
     @GetMapping("/create")
     public String create(Model model) {
+        model.addAttribute("create", true);
         model.addAttribute("pizza", new Pizza());
-        return "pizza/create";
+        return "pizza/create-or-edit";
     }
 
     @PostMapping("/create")
@@ -59,12 +60,46 @@ public class PizzaController {
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "pizza/create";
+            model.addAttribute("create", true);
+            return "pizza/create-or-edit";
         }
 
         repository.save(pizzaForm);
         redirectAttributes.addFlashAttribute("message", "A new pizza has been added");
+        redirectAttributes.addFlashAttribute("alert", "alert-primary");
         return "redirect:/pizza";
     }
 
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model) {
+        model.addAttribute("pizza", repository.findById(id).get());
+        return "pizza/create-or-edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String edit(@Valid @ModelAttribute("pizza") Pizza pizzaForm, BindingResult bindingResult, Model model,
+            RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            return "pizza/create-or-edit";
+        }
+
+        repository.save(pizzaForm);
+        redirectAttributes.addFlashAttribute("message", "A pizza has been updated");
+        redirectAttributes.addFlashAttribute("alert", "alert-success");
+        return "redirect:/pizza";
+    }
+
+    @PostMapping("/delete")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        
+        Pizza pizza = repository.findById(id).get();
+
+        repository.delete(pizza);
+ 
+        redirectAttributes.addFlashAttribute("message", "A pizza has been updated");
+        redirectAttributes.addFlashAttribute("alert", "alert-danger");
+        return "redirect:/pizza";
+    }
+    
 }
