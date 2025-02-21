@@ -9,9 +9,75 @@
 </head>
 
 <body>
-    <header th:insert="fragments/fragments :: header">
+    <header th:insert="fragments/navbar :: navbar">
     </header>
-    <main th:insert="fragments/fragments :: list">
+    <main class="container">
+        <div class="mt-4 d-flex justify-content-between align-items-center">
+            <h1 class="fw-light fs-3 text">Lista Pizze</h1>
+            <a class="btn btn-primary" th:href="@{/pizza/create}">Add Pizza</a>
+        </div>
+        <th:block th:replace="~{fragments/messages :: redirect-message(${message}, ${alert})}">
+        </th:block>
+        <table class="table mt-5" th:if="${pizzas.size() > 0}">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Ingredients </th>
+                    <th scope="col">Price</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pizza : ${pizzas}" th:object="${pizza}">
+                    <td scope="row" th:text="*{id}" />
+                    <td th:text="*{name}" />
+                    <td th:text="*{description}" />
+                    <td th:text="*{price} + '€'" />
+                    <td>
+                        <a role="button" class="btn btn-sm btn-primary"
+                            th:href="@{/pizza/{id}(id=${pizza.id})}">View</a>
+                    </td>
+                    <td>
+                        <a role="button" class="btn btn-sm btn-success"
+                            th:href="@{/pizza/edit/{id}(id=${pizza.id})}">Edit</a>
+                    </td>
+                    <td>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            th:data-bs-target="'#delete-modal-' + *{id}">
+                            Delete
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" th:id="'delete-modal-' + *{id}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Deleting [[*{name}]]</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                       Are you sure you want to delete [[*{name}]]?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                            <form th:action="@{/pizza/delete/{id}(id=*{id})}" method="post" class="d-inline">
+                                                <input type="submit" value="Delete permanently" class="btn btn-sm btn-danger">
+                                            </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </main>
 
     <!-- Js  -->
