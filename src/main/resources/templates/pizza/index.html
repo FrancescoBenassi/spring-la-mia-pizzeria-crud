@@ -18,7 +18,7 @@
         </div>
         <th:block th:replace="~{fragments/messages :: redirect-message(${message}, ${alert})}">
         </th:block>
-        <table class="table mt-5" th:if="${pizzas.size() > 0}">
+        <table class="table mt-5 align-middle" th:if="${pizzas.size() > 0}">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -27,7 +27,7 @@
                     <th scope="col">Price</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
-
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -52,8 +52,8 @@
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" th:id="'delete-modal-' + *{id}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
+                        <div class="modal fade" th:id="'delete-modal-' + *{id}" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -62,14 +62,16 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                       Are you sure you want to delete [[*{name}]]?
+                                        Are you sure you want to delete [[*{name}]]?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
-                                            <form th:action="@{/pizza/delete/{id}(id=*{id})}" method="post" class="d-inline">
-                                                <input type="submit" value="Delete permanently" class="btn btn-sm btn-danger">
-                                            </form>
+                                        <form th:action="@{/pizza/delete/{id}(id=*{id})}" method="post"
+                                            class="d-inline">
+                                            <input type="submit" value="Delete permanently"
+                                                class="btn btn-sm btn-danger">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
