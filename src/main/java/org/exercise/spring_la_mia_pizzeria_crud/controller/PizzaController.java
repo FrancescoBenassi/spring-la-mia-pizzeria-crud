@@ -9,16 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
-
 
 @Controller
 @RequestMapping("/pizza")
@@ -34,8 +33,8 @@ public class PizzaController {
         return "pizza/index";
     }
 
-    @GetMapping("/search")
-    public String findByKeyword(@RequestParam(name = "name") String name, Model model) {
+    @GetMapping("search")
+    public String findByKeyword(@RequestParam("name") String name, Model model) {
         List<Pizza> pizzas = repository.findByNameContainingIgnoreCase(name);
         model.addAttribute("pizzas", pizzas);
         return "pizza/index";
@@ -92,14 +91,14 @@ public class PizzaController {
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
-        
+
         Pizza pizza = repository.findById(id).get();
 
         repository.delete(pizza);
- 
+
         redirectAttributes.addFlashAttribute("message", "A pizza has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
         return "redirect:/pizza";
     }
-    
+
 }
