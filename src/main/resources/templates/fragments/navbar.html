@@ -32,13 +32,13 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contatti</a>
                         </li>
-                        <!-- <li>
-                            <form class="d-flex px-3" th.href="@/pizza/search/${name}(name=${pizza})" method="post" role="search">
-                                <input class="form-control me-2 bg-white text-dark" type="search" placeholder="Cerca..."
-                                    aria-label="Search">
-                                <button class="btn btn-outline-light" type="submit">Cerca</button>
+                        <li>
+                            <form class="d-flex px-3" th:action="@{/pizza/search}" method="get" role="search">
+                                <input class="form-control me-2 bg-white text-dark" type="search" placeholder="Search..."
+                                    aria-label="Search" name="name">
+                                <button class="btn btn-outline-light" type="submit">Search</button>
                             </form>
-                        </li> -->
+                        </li>
                     </ul>
                 </div>
             </div>
