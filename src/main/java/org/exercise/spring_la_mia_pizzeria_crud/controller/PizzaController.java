@@ -76,7 +76,7 @@ public class PizzaController {
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@Valid @ModelAttribute("pizza") Pizza pizzaForm, BindingResult bindingResult, Model model,
+    public String update(@Valid @ModelAttribute("pizza") Pizza pizzaForm, BindingResult bindingResult, Model model,
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
