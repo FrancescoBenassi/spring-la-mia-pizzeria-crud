@@ -1,8 +1,10 @@
 package org.exercise.spring_la_mia_pizzeria_crud.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.exercise.spring_la_mia_pizzeria_crud.model.Pizza;
+import org.exercise.spring_la_mia_pizzeria_crud.model.SpecialOffer;
 import org.exercise.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -99,6 +101,16 @@ public class PizzaController {
         redirectAttributes.addFlashAttribute("message", "A pizza has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
         return "redirect:/pizza";
+    }
+
+    @GetMapping("/{id}/specialOffer")
+    public String specialOffer(@PathVariable Integer id, Model model){
+        SpecialOffer specialOffer = new SpecialOffer();
+        specialOffer.setPizza(repository.findById(id).get());
+        specialOffer.setStartDate(LocalDate.now());
+        model.addAttribute("specialOffer", specialOffer);
+        model.addAttribute("create", true);
+        return "specialOffers/create-or-edit";
     }
 
 }
