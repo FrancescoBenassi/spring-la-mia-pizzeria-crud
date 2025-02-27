@@ -6,6 +6,7 @@ import java.util.List;
 import org.exercise.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.exercise.spring_la_mia_pizzeria_crud.model.SpecialOffer;
 import org.exercise.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
+import org.exercise.spring_la_mia_pizzeria_crud.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,9 @@ public class PizzaController {
 
     @Autowired
     private PizzaRepository repository;
+
+    @Autowired
+    private PizzaService pizzaService;
 
     @GetMapping
     public String index(Model model) {
@@ -96,7 +100,7 @@ public class PizzaController {
 
         Pizza pizza = repository.findById(id).get();
 
-        repository.delete(pizza);
+        pizzaService.deleteById(pizza);
 
         redirectAttributes.addFlashAttribute("message", "A pizza has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
