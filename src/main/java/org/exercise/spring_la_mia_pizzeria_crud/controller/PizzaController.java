@@ -6,6 +6,7 @@ import java.util.List;
 import org.exercise.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.exercise.spring_la_mia_pizzeria_crud.model.SpecialOffer;
 import org.exercise.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
+import org.exercise.spring_la_mia_pizzeria_crud.service.IngredientService;
 import org.exercise.spring_la_mia_pizzeria_crud.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,9 @@ public class PizzaController {
     @Autowired
     private PizzaService pizzaService;
 
+    @Autowired
+    private IngredientService ingredientService;
+
     @GetMapping
     public String index(Model model) {
         List<Pizza> pizzas = repository.findAll();
@@ -57,6 +61,7 @@ public class PizzaController {
     public String create(Model model) {
         model.addAttribute("create", true);
         model.addAttribute("pizza", new Pizza());
+        model.addAttribute("ingredients", ingredientService.findAll());
         return "pizza/create-or-edit";
     }
 
@@ -66,6 +71,7 @@ public class PizzaController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("create", true);
+            model.addAttribute("ingredients", ingredientService.findAll());
             return "pizza/create-or-edit";
         }
 
@@ -78,6 +84,7 @@ public class PizzaController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("pizza", repository.findById(id).get());
+        model.addAttribute("ingredients", ingredientService.findAll());
         return "pizza/create-or-edit";
     }
 
@@ -86,6 +93,7 @@ public class PizzaController {
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("ingredients", ingredientService.findAll());
             return "pizza/create-or-edit";
         }
 
