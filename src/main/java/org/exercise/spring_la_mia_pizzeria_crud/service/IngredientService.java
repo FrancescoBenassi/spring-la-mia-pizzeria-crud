@@ -29,19 +29,19 @@ public class IngredientService {
         return ingredientRepository.existsById(id);
     }
 
-    public Ingredient create(Ingredient ingredient){
+    public Ingredient create(Ingredient ingredient) {
         return ingredientRepository.save(ingredient);
     }
 
-public Ingredient update(Ingredient ingredient){
-return ingredientRepository.save(ingredient);
-}
+    public Ingredient update(Ingredient ingredient) {
+        return ingredientRepository.save(ingredient);
+    }
 
-    public void delete(Ingredient ingredient){
+    public void delete(Ingredient ingredient) {
         ingredientRepository.delete(ingredient);
     }
 
-    public void deleteById(Integer id){
+    public void deleteById(Integer id) {
         ingredientRepository.deleteById(id);
     }
 
