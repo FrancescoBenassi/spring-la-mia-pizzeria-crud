@@ -19,9 +19,18 @@
                     </div>
                     <div class="card-body">
                         <img th:src="*{image}" width="100%" height="225px"
-                            class="bd-placeholder-img card-img-top object-fit-cover border border-0"
+                            class="bd-placeholder-img card-img-top object-fit-cover border border-0 mb-3"
                             alt="immagine della pizza">
-                        <p class="card-text py-4"> <strong>Ingredienti: </strong> [[*{description}]] </p>
+                        <th:block th:if="*{ingredients.size()>0}">
+                            <h4 class="mb-3">
+                                Ingredients:
+                            </h4>
+                            <div th:each="ingredient : *{ingredients}" th:text="'- '+${ingredient.name}" />
+                        </th:block>
+                        <th:block th:unless="*{ingredients.size()>0}">
+                            <p class="alert alert-info">This pizza has not ingredients, must be added</p>
+                        </th:block>
+                        <p class="card-text py-4"> <strong>Descrizione: </strong> [[*{description}]] </p>
                     </div>
                 </div>
             </div>
@@ -49,8 +58,15 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="mb-3" th:text="'Ingredients:'" />
+                    <div class="mb-3" th:each="ingredient : ${ingredients}">
+                        <input th:id="'ingredient-'+${ingredient.id}" type="checkbox" class="form-check-input"
+                            th:field="${pizza.ingredients}" th:value="${ingredient.id}">
+                        <label th:for="'ingredient-'+${ingredient.id}" class="form-check-label"
+                            th:text="${ingredient.name}" />
+                    </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">Ingredients: </label>
+                        <label for="description" class="form-label">Description: </label>
                         <input type="text" class="form-control" id="description" th:field="*{description}"
                             th:errorClass="is-invalid" maxlength="255" required>
                         <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
