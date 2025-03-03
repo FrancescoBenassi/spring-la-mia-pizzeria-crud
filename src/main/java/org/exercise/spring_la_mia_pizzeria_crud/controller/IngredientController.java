@@ -11,14 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 
 @Controller
@@ -43,7 +40,7 @@ public class IngredientController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("create", true);
-        model.addAttribute("ingredients", new Ingredient());
+        model.addAttribute("ingredient", new Ingredient());
         return "ingredients/create-or-edit";
     }
 
@@ -64,7 +61,7 @@ public class IngredientController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("ingredients", ingredientService.getbyId(id));
+        model.addAttribute("ingredient", ingredientService.getbyId(id));
         return "ingredients/create-or-edit";
     }
 
@@ -82,11 +79,14 @@ public class IngredientController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable Integer Id) {
-        ingredientService.deleteById(Id);
-        return "redirect:/ingredients";
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        Ingredient ingredient = ingredientService.getbyId(id);
+        for (Pizza pizza : ingredient.getPizzas()) {
+            pizza.getIngredients().remove(ingredient);
+        }
+        ingredientService.delete(ingredient);
+        redirectAttributes.addFlashAttribute("message", "A ingredient has been deleted");
+        redirectAttributes.addFlashAttribute("alert", "alert-danger");
+        return "redirect:/pizza";
     }
-
-    
-    
 }
