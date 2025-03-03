@@ -1,6 +1,5 @@
 package org.exercise.spring_la_mia_pizzeria_crud.controller;
 
-import org.exercise.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.exercise.spring_la_mia_pizzeria_crud.model.SpecialOffer;
 import org.exercise.spring_la_mia_pizzeria_crud.service.SpecialOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
