@@ -28,9 +28,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PizzaController {
 
     @Autowired
-    private PizzaRepository repository;
-
-    @Autowired
     private PizzaService pizzaService;
 
     @Autowired
@@ -38,14 +35,14 @@ public class PizzaController {
 
     @GetMapping
     public String index(Model model) {
-        List<Pizza> pizzas = repository.findAll();
+        List<Pizza> pizzas = pizzaService.findAll();
         model.addAttribute("pizzas", pizzas);
         return "pizza/index";
     }
 
     @GetMapping("search")
     public String findByKeyword(@RequestParam("name") String name, Model model) {
-        List<Pizza> pizzas = repository.findByNameContainingIgnoreCase(name);
+        List<Pizza> pizzas = pizzaService.findByName(name);
         model.addAttribute("pizzas", pizzas);
         return "pizza/index";
     }
@@ -53,7 +50,7 @@ public class PizzaController {
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
         // Pizza pizza = repository.findById(id).get();
-        model.addAttribute("pizza", repository.findById(id).get());
+        model.addAttribute("pizza", pizzaService.getById(id));
         return "pizza/showPizza";
     }
 
@@ -75,7 +72,7 @@ public class PizzaController {
             return "pizza/create-or-edit";
         }
 
-        repository.save(pizzaForm);
+        pizzaService.create(pizzaForm);
         redirectAttributes.addFlashAttribute("message", "A new pizza has been added");
         redirectAttributes.addFlashAttribute("alert", "alert-primary");
         return "redirect:/pizza";
@@ -83,7 +80,7 @@ public class PizzaController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("pizza", repository.findById(id).get());
+        model.addAttribute("pizza", pizzaService.getById(id));
         model.addAttribute("ingredients", ingredientService.findAll());
         return "pizza/create-or-edit";
     }
@@ -97,7 +94,7 @@ public class PizzaController {
             return "pizza/create-or-edit";
         }
 
-        repository.save(pizzaForm);
+        pizzaService.update(pizzaForm);
         redirectAttributes.addFlashAttribute("message", "A pizza has been updated");
         redirectAttributes.addFlashAttribute("alert", "alert-success");
         return "redirect:/pizza";
@@ -106,7 +103,7 @@ public class PizzaController {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
 
-        Pizza pizza = repository.findById(id).get();
+        Pizza pizza = pizzaService.getById(id);
 
         pizzaService.deleteById(pizza);
 
@@ -118,7 +115,7 @@ public class PizzaController {
     @GetMapping("/{id}/specialOffer")
     public String specialOffer(@PathVariable Integer id, Model model){
         SpecialOffer specialOffer = new SpecialOffer();
-        specialOffer.setPizza(repository.findById(id).get());
+        specialOffer.setPizza(pizzaService.getById(id));
         specialOffer.setStartDate(LocalDate.now());
         model.addAttribute("specialOffer", specialOffer);
         model.addAttribute("create", true);
