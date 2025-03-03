@@ -14,7 +14,10 @@
     <main class="container">
         <div class="my-4 d-flex justify-content-between align-items-center">
             <h1 class="fw-light fs-3 text">Lista Pizze</h1>
-            <a class="btn btn-primary" th:href="@{/pizza/create}">Add Pizza</a>
+            <div>
+                <a class="btn btn-primary" th:href="@{/pizza/create}">Create Pizza</a>
+                <a class="btn btn-primary" th:href="@{/ingredients/create}">Create Ingredient</a>
+            </div>
         </div>
         <th:block th:replace="~{fragments/messages :: redirect-message(${message}, ${alert})}">
         </th:block>
@@ -35,7 +38,7 @@
                 <tr th:each="pizza : ${pizzas}" th:object="${pizza}">
                     <td scope="row" th:text="*{id}" />
                     <td th:text="*{name}" />
-                    <td th:text="*{description}" />
+                    <td th:text="*{ingredients}" />
                     <td th:text="*{price} + '€'" />
                     <td>
                         <a role="button" class="btn btn-sm btn-primary"

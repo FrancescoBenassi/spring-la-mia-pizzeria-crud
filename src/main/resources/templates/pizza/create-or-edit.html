@@ -11,7 +11,69 @@
 <body>
     <header th:insert="fragments/navbar :: navbar">
     </header>
-    <main th:insert="fragments/fragments :: create-or-edit" class="container">
+    <main class="container">
+        <section class="row justify-content-center">
+            <div class="col-12">
+                <h1 th:if="${create}">
+                    Create new pizza:
+                </h1>
+                <h1 th:unless="${create}">
+                    Editing "[[${pizza.name}]]":
+                </h1>
+                <form th:action="${create} ? @{/pizza/create} : @{|/pizza/edit/${pizza.id}|}" th:object="${pizza}"
+                    id="pizza-create-form" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name: </label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" th:errorClass="is-invalid"
+                            maxlength="255" required>
+                        <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('name')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3" th:text="'Ingredients:'" />
+                    <div class="mb-3" th:each="ingredient : ${ingredients}">
+                        <input th:id="'ingredient-'+${ingredient.id}" type="checkbox" class="form-check-input"
+                            th:field="${pizza.ingredients}" th:value="${ingredient.id}">
+                        <label th:for="'ingredient-'+${ingredient.id}" class="form-check-label"
+                            th:text="${ingredient.name}" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description: </label>
+                        <input type="text" class="form-control" id="description" th:field="*{description}"
+                            th:errorClass="is-invalid" maxlength="255" required>
+                        <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('description')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price: </label>
+                        <input type="number" class="form-control" id="price" th:field="*{price}"
+                            th:errorClass="is-invalid" required>
+                        <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('price')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image: </label>
+                        <input type="text" class="form-control" id="image" th:field="*{image}"
+                            th:errorClass="is-invalid" required>
+                        <div th:if="${#fields.hasErrors('image')}" class="invalid-feedback">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('image')}" th:text="${error}" />
+                            </ul>
+                        </div>
+                    </div>
+                    <input type="submit" value="Save" class="btn btn-primary">
+                </form>
+            </div>
+
+        </section>
     </main>
 
     <!-- Js  -->

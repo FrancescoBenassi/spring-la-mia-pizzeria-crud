@@ -15,10 +15,10 @@
         <section class="row justify-content-center">
             <div class="col-12">
                 <h1 th:if="${create}">
-                    Create new special offer:
+                    Create new ingredient:
                 </h1>
                 <h1 th:unless="${create}">
-                    Editing special offer for "[[${ingredient.name}]]":
+                    Editing ingredient for "[[${ingredient.name}]]":
                 </h1>
                 <form th:action="${create} ? @{/ingredients/create} : @{|/ingredients/edit/${ingredient.id}|}"
                     id="pizza-create-form" method="post" th:object="${ingredient}">
