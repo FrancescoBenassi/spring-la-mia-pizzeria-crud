@@ -1,7 +1,6 @@
 package org.exercise.spring_la_mia_pizzeria_crud.controller;
 
 import org.exercise.spring_la_mia_pizzeria_crud.model.Ingredient;
-import org.exercise.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.exercise.spring_la_mia_pizzeria_crud.service.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -81,9 +80,6 @@ public class IngredientController {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         Ingredient ingredient = ingredientService.getbyId(id);
-        for (Pizza pizza : ingredient.getPizzas()) {
-            pizza.getIngredients().remove(ingredient);
-        }
         ingredientService.delete(ingredient);
         redirectAttributes.addFlashAttribute("message", "A ingredient has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
