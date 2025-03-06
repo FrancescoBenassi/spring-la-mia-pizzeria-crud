@@ -3,6 +3,7 @@ package org.exercise.spring_la_mia_pizzeria_crud.service;
 import java.util.List;
 
 import org.exercise.spring_la_mia_pizzeria_crud.model.Ingredient;
+import org.exercise.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.exercise.spring_la_mia_pizzeria_crud.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -38,6 +39,9 @@ public class IngredientService {
     }
 
     public void delete(Ingredient ingredient) {
+        for (Pizza pizza : ingredient.getPizzas()) {
+            pizza.getIngredients().remove(ingredient);
+        }
         ingredientRepository.delete(ingredient);
     }
 
