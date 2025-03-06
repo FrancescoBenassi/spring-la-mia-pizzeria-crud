@@ -1,8 +1,8 @@
 package org.exercise.spring_la_mia_pizzeria_crud.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.exercise.spring_la_mia_pizzeria_crud.model.Ingredient;
 import org.exercise.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.exercise.spring_la_mia_pizzeria_crud.model.SpecialOffer;
 import org.exercise.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
@@ -20,7 +20,15 @@ public class PizzaService {
     SpecialOfferRepository specialOfferRepository;
 
     public Pizza getById(Integer id) {
-        return pizzaRepository.findById(id).get();
+        Optional<Pizza> pizza = pizzaRepository.findById(id);
+        if(pizza.isEmpty()){
+            throw new IllegalArgumentException("Pizza not found with id " + id);
+        }
+        return pizza.get();
+    }
+
+    public Optional<Pizza> findById(Integer id){
+        return pizzaRepository.findById(id);
     }
 
    public List<Pizza> findByName(String name) {
@@ -39,11 +47,15 @@ public class PizzaService {
         return pizzaRepository.save(pizza);
     }
 
-    public void deleteById( Pizza pizza){
+    public void delete( Pizza pizza){
         for (SpecialOffer specialOffer : pizza.getSpecialOffers()) {
             specialOfferRepository.delete(specialOffer);
         }
         pizzaRepository.delete(pizza);
+    }
+
+    public void deleteById(Integer id){
+        pizzaRepository.deleteById(id);
     }
     
 }
