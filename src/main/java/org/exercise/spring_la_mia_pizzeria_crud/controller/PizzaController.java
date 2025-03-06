@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.exercise.spring_la_mia_pizzeria_crud.model.Pizza;
 import org.exercise.spring_la_mia_pizzeria_crud.model.SpecialOffer;
-import org.exercise.spring_la_mia_pizzeria_crud.repository.PizzaRepository;
 import org.exercise.spring_la_mia_pizzeria_crud.service.IngredientService;
 import org.exercise.spring_la_mia_pizzeria_crud.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +104,7 @@ public class PizzaController {
 
         Pizza pizza = pizzaService.getById(id);
 
-        pizzaService.deleteById(pizza);
+        pizzaService.delete(pizza);
 
         redirectAttributes.addFlashAttribute("message", "A pizza has been deleted");
         redirectAttributes.addFlashAttribute("alert", "alert-danger");
